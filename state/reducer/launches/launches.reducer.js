@@ -9,7 +9,7 @@ export const launchState = (state=initialState, action) => {
     case actionTypes.GET_LAUNCHES:
       return {
         ...state,
-        launchList: [...action.payload]
+        launchList: action.payload
       }
   
     case actionTypes.FLUSH_LAUNCHES:
