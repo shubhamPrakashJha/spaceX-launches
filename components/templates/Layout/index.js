@@ -29,4 +29,4 @@ Layout.propTypes = {
   description: PropTypes.string
 };
 
-export default Layout;
+export default React.memo(Layout);

@@ -23,6 +23,7 @@ export default function Home() {
     launch_success: '',
     land_success: '',
   });
+  const [isLoading, setIsLoading] = useState(false);
 
 
   const {
@@ -31,7 +32,8 @@ export default function Home() {
 
   /* Load Launch list on first Render */
   useEffect(() => {
-    dispatch(getLaunchesAsync({params}))
+    setIsLoading(true);
+    dispatch(getLaunchesAsync({params})).then(success => setIsLoading(false))
   }, [])
 
   /* Handle Toggle on Filter click */
@@ -80,7 +82,7 @@ export default function Home() {
   .filter(launch => (params.land_success === undefined || params.land_success === '')  ? ( launch?.rocket?.first_stage?.cores[0]?.land_success !== '') : (launch?.rocket?.first_stage?.cores[0]?.land_success?.toString() === params.land_success));
 
   return (
-    <Layout title="SpaceX Launch Programs" >
+<Layout title="SpaceX Launch Programs" >
       <div>
         <SiteSidebar>
           <h3 className={styles.sidebarTitle}>Filters</h3>
@@ -89,7 +91,7 @@ export default function Home() {
           }
         </SiteSidebar>
       </div>
-      <div className={styles.cardContainer}>
+      {!isLoading ? <div className={styles.cardContainer}>
         {
           filteredList.length > 0 ? filteredList.map(launch => (
             <Card 
@@ -103,7 +105,7 @@ export default function Home() {
             />
           )) : <h4>No Records Found...</h4>
         }
-      </div>
+      </div> : <h4>Loading...</h4>}
     </Layout>
-  )
+  );
 }
