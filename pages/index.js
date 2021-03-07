@@ -88,7 +88,7 @@ export default function Home() {
           }
         </SiteSidebar>
       </div>
-      <div>
+      <div className={styles.cardContainer}>
         {
           filteredList.map(launch => (
             <Card 

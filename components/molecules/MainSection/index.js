@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styles from './main.module.css'
 
 const MainSection = ({ children }) => (
-  <main id="MainSection" >
+  <main id="MainSection" className={styles.main} >
     {children}
   </main>
 );

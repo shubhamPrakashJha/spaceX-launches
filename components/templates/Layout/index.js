@@ -3,18 +3,20 @@ import PropTypes from 'prop-types';
 import { SiteHeader, SiteFooter } from '../../organisms';
 import { MainSection } from '../../molecules';
 
+import styles from './layout.module.css'
+
 function Layout({
   children,
   title = '',
 }) {
   return (
-    <>
+    <div className={styles.appContainer}>
       <SiteHeader title={title}/>
       <MainSection>
         {children}
       </MainSection>
       <SiteFooter />
-    </>
+    </div>
   );
 }
 

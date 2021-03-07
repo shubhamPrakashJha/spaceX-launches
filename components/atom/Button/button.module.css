@@ -13,3 +13,22 @@
   border-radius: 4px;
   margin: 0.5rem 2rem;
 }
+
+@media (min-width: 700px){
+  .button {
+    margin: 0.5rem 0.25rem;
+  }
+  
+  .activeButton{
+    margin: 0.5rem 0.25rem;
+  }
+}
+@media (min-width: 1024px){
+  .button {
+    margin: 0.5rem 0.75rem;
+  }
+  
+  .activeButton{
+    margin: 0.5rem 0.75rem;
+  }
+}
