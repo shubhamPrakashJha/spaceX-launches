@@ -5,7 +5,10 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {getLaunchesAsync} from '../state/reducer/launches/launches.action';
 import {Card} from '../components/atom'
+import { SiteSidebar } from '../components/organisms';
 import styles from '../styles/Home.module.css';
+import {filterConfig} from '../config/launchFilter.config';
+import { Filter } from '../components';
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -14,13 +17,22 @@ export default function Home() {
   } = useSelector(state => state.launchState) 
 
   useEffect(() => {
-    // console.log('hello')
-    // dispatch(getLaunchesAsync({params: {launch_year: 2014}}))
     dispatch(getLaunchesAsync({params: {limit: 100}}))
   }, [])
 
+  const handleFilterClick = (key, value) => {
+    console.log(key, value)
+  }
+
   return (
     <Layout title="SpaceX Launch Programs" >
+      <div>
+        <SiteSidebar>
+          {
+            filterConfig(2006).map(filter => <Filter title={filter.title} keyName={filter.key} values={filter.values} handleClick={handleFilterClick} />)
+          }
+        </SiteSidebar>
+      </div>
       <div>
         {
           launchList.map(launch => (

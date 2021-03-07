@@ -39,3 +39,13 @@ export const createHeader = (value = {}, base = {}) => ({
 export const SetLocal = (name, data) => localStorage.setItem(name, JSON.stringify(data));
 
 export const GetLocal = query => JSON.parse(localStorage.getItem(query));
+
+export const getYearsList = fromYear => {
+  const currentYear = new Date().getFullYear();
+  let yearsArray = [];
+
+  for(let year=fromYear; year<=currentYear; year++){
+    yearsArray.push(year)
+  }
+  return yearsArray;
+}

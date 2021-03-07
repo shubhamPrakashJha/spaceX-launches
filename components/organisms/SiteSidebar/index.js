@@ -1,10 +1,10 @@
 import React from 'react'
 
-function SiteSidebar() {
+function SiteSidebar({children}) {
   return (
-    <div>
-      Sidebar
-    </div>
+    <aside>
+      {children}
+    </aside>
   )
 }
 

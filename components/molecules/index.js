@@ -1,2 +1,4 @@
 import MainSection from "./MainSection";
-export { MainSection }
+import Filter from "./Filter";
+
+export { MainSection, Filter }

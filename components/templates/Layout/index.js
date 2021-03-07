@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { SiteHeader, SiteSidebar, SiteFooter } from '../../organisms';
+import { SiteHeader, SiteFooter } from '../../organisms';
 import { MainSection } from '../../molecules';
 
 function Layout({
@@ -11,14 +11,7 @@ function Layout({
     <>
       <SiteHeader title={title}/>
       <MainSection>
-        <div>
-          <div >
-            <SiteSidebar />
-            <div>
-              {children}
-            </div>
-          </div>
-        </div>
+        {children}
       </MainSection>
       <SiteFooter />
     </>
