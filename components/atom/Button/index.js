@@ -11,7 +11,7 @@ function Button({children, onClick, active}) {
   )
 }
 
-Button.PropTypes = {
+Button.propTypes = {
   text: PropTypes.string
 }
 

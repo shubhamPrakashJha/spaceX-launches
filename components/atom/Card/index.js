@@ -12,7 +12,7 @@ function Card({imgUrl="", title, missionIdList = [], launchYear="", launchSuccce
         <h4 className={styles.card_title}>{title}</h4>
         <h5>Mission Ids:</h5>
           <ul className={styles.list}>
-            {missionIdList.map(missionId => <li>{missionId}</li>)}
+            {missionIdList.map(missionId => <li key={missionId}>{missionId}</li>)}
           </ul>
         <h5>Launch Year: <span className={styles.card_value}>{launchYear}</span></h5> 
         <h5>Successful Launch: <span className={styles.card_value}>{launchSucccess}</span></h5> 
