@@ -91,7 +91,7 @@ export default function Home() {
       </div>
       <div className={styles.cardContainer}>
         {
-          filteredList.map(launch => (
+          filteredList.length > 0 ? filteredList.map(launch => (
             <Card 
               key={`${launch.mission_name}${launch.flight_number}`}
               imgUrl={launch?.links?.mission_patch_small || 'https://via.placeholder.com/150x150?text=No%20Image%20Available'}
@@ -101,7 +101,7 @@ export default function Home() {
               launchSucccess={launch.launch_success ? "true" : "false"}
               landSuccess={launch?.rocket?.first_stage?.cores[0]?.land_success !== null ? launch?.rocket?.first_stage?.cores[0]?.land_success.toString() : "Not Available"}
             />
-          ))
+          )) : <h4>No Records Found...</h4>
         }
       </div>
     </Layout>
