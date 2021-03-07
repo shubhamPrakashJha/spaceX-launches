@@ -1,8 +1,8 @@
 
-import Layout from '../components/templates/Layout';
-import {useEffect, useState} from 'react';
+import {useEffect,useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
+import Layout from '../components/templates/Layout';
 import {getLaunchesAsync} from '../state/reducer/launches/launches.action';
 import {Card} from '../components/atom'
 import { SiteSidebar } from '../components/organisms';
@@ -10,33 +10,69 @@ import styles from '../styles/Home.module.css';
 import {filterConfig} from '../config/launchFilter.config';
 import { Filter } from '../components';
 
-export default function Home() {
-  const [params, setParams] = useState({limit: 100});
+import { useRouter } from 'next/router'
 
+export default function Home() {
+  const firstRun = useRef(true)
+  const [renderCount, setRenderCount] = useState(0)
+  const router = useRouter()
   const dispatch = useDispatch();
+  const [params, setParams] = useState({
+    limit: 100,
+    launch_year: '',
+    launch_success: '',
+    land_success: '',
+  });
+
+
   const {
     launchList
   } = useSelector(state => state.launchState) 
 
+  /* Load Launch list on first Render */
   useEffect(() => {
     dispatch(getLaunchesAsync({params}))
   }, [])
 
+  /* Handle Toggle on Filter click */
   const handleFilterClick = (key, value) => {
     console.log(key, value);
     if(params[key] === value){
       setParams(params => ({
         ...params,
         [key]: ''
-    }))
+      }))
     }else{
       setParams(params => ({
         ...params,
         [key]: value
-    }))
+      }))
     }
-    
   }
+
+  /* Chage url based on filter */
+  useEffect(() => {
+    if (firstRun.current) {
+      firstRun.current = false
+      return
+    }
+    router.push({
+      pathname: '/',
+      search: new URLSearchParams(params)
+    })
+  }, [params])
+
+  /* Handle Refresh with query param */
+  useEffect(() => {
+    if(Object.keys(router.query).length > 0){
+        if (renderCount === 0) {
+          console.log(router.query);
+          setParams({ ...router.query });
+          setRenderCount(1);
+        }
+    }
+}, [launchList, params, router])
+
 
   const filteredList = launchList
   .filter(launch => !params.launch_year ? ( launch.launch_year !== '') : (launch.launch_year == params.launch_year))
@@ -48,7 +84,7 @@ export default function Home() {
       <div>
         <SiteSidebar>
           {
-            filterConfig(2006).map(filter => <Filter title={filter.title} keyName={filter.key} values={filter.values} handleClick={handleFilterClick} activeFilter={params}/>)
+            filterConfig(2006).map(filter => <Filter key={filter.key} title={filter.title} keyName={filter.key} values={filter.values} handleClick={handleFilterClick} activeFilter={params}/>)
           }
         </SiteSidebar>
       </div>
