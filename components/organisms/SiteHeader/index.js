@@ -1,5 +1,6 @@
 import Head from 'next/head';
-import React from 'react'
+import React from 'react';
+import styles from './header.module.css'
 
 function SiteHeader({title}) {
   return (
@@ -9,7 +10,7 @@ function SiteHeader({title}) {
         {/* <link rel="icon" href="/favicon.ico" /> */}
       </Head>
 
-      <header>
+      <header className={styles.header}>
         <h1>{title}</h1>
       </header>
     </>

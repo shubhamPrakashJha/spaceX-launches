@@ -1,3 +1,7 @@
+.sidebarTitle{
+  margin: 0;
+}
+
 @media (min-width: 700px){
   .cardContainer{
     display: grid;

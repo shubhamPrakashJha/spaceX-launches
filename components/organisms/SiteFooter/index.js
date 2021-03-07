@@ -1,14 +1,16 @@
-import React from 'react'
+import React from 'react';
+import styles from './footer.module.css'
 
 function SiteFooter() {
   return (
-    <footer>
+    <footer className={styles.footer}>
       <a
         href="https://shubhamprakashjha.github.io/"
         target="_blank"
         rel="noopener noreferrer"
+        className={styles.footerText}
       >
-        Developed by: Shubham Prakash
+        <span className={styles.creator}>Developed by:</span> Shubham Prakash
       </a>
     </footer>
   );

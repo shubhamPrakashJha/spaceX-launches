@@ -83,6 +83,7 @@ export default function Home() {
     <Layout title="SpaceX Launch Programs" >
       <div>
         <SiteSidebar>
+          <h3 className={styles.sidebarTitle}>Filters</h3>
           {
             filterConfig(2006).map(filter => <Filter key={filter.key} title={filter.title} keyName={filter.key} values={filter.values} handleClick={handleFilterClick} activeFilter={params}/>)
           }
