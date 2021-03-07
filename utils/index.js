@@ -45,7 +45,7 @@ export const getYearsList = fromYear => {
   let yearsArray = [];
 
   for(let year=fromYear; year<=currentYear; year++){
-    yearsArray.push(year)
+    yearsArray.push(year.toString())
   }
   return yearsArray;
 }
