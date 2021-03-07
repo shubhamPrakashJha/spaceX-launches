@@ -1,0 +1,13 @@
+.filterValuesWrapper{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.filterTitle{
+  text-align: center;
+}
+
+.line{
+  width: 60%
+}
