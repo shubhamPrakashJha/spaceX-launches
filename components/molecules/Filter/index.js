@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from '../../atom'
 import styles from './filter.module.css'
 
-function Filter({title, keyName, values, handleClick}) {
+function Filter({title, keyName, values, handleClick, activeFilter}) {
   return (
     <>
       <div className={styles.filterTitle}>
@@ -11,7 +11,7 @@ function Filter({title, keyName, values, handleClick}) {
       </div>
       <div className={styles.filterValuesWrapper}>
         {values.map((value) => (
-          <Button onClick={() => handleClick(keyName, value)}>{value}</Button>
+          <Button key={value} onClick={() => handleClick(keyName, value)} active={activeFilter[keyName] === value}>{value}</Button>
         ))}
       </div>
     </>

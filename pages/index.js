@@ -11,25 +11,43 @@ import {filterConfig} from '../config/launchFilter.config';
 import { Filter } from '../components';
 
 export default function Home() {
+  const [params, setParams] = useState({limit: 100});
+
   const dispatch = useDispatch();
   const {
     launchList
   } = useSelector(state => state.launchState) 
 
   useEffect(() => {
-    dispatch(getLaunchesAsync({params: {limit: 100}}))
+    dispatch(getLaunchesAsync({params}))
   }, [])
 
   const handleFilterClick = (key, value) => {
-    console.log(key, value)
+    console.log(key, value);
+    if(params[key] === value){
+      setParams(params => ({
+        ...params,
+        [key]: ''
+    }))
+    }else{
+      setParams(params => ({
+        ...params,
+        [key]: value
+    }))
+    }
+    
   }
+
+  useEffect(() => {
+    dispatch(getLaunchesAsync({params}))
+  }, [params])
 
   return (
     <Layout title="SpaceX Launch Programs" >
       <div>
         <SiteSidebar>
           {
-            filterConfig(2006).map(filter => <Filter title={filter.title} keyName={filter.key} values={filter.values} handleClick={handleFilterClick} />)
+            filterConfig(2006).map(filter => <Filter title={filter.title} keyName={filter.key} values={filter.values} handleClick={handleFilterClick} activeFilter={params}/>)
           }
         </SiteSidebar>
       </div>
@@ -37,6 +55,7 @@ export default function Home() {
         {
           launchList.map(launch => (
             <Card 
+              key={`${launch.mission_name}${launch.flight_number}`}
               imgUrl={launch?.links?.mission_patch_small || 'https://via.placeholder.com/150x150?text=No%20Image%20Available'}
               title={`${launch.mission_name} #${launch.flight_number}`}
               missionIdList={launch.mission_id}

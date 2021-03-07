@@ -1,7 +1,8 @@
 import {actionTypes} from './launches.constant';
 
 let initialState = {
-  launchList: []
+  launchList: [],
+  filter: {}
 }
 
 export const launchState = (state=initialState, action) => {
