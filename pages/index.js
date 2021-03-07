@@ -21,11 +21,20 @@ export default function Home() {
 
   return (
     <Layout title="SpaceX Launch Programs" >
-      <ul>
-          {launchList.map(launch => (
-            <li key={launch.flight_number}>{launch.mission_name}</li>
-          ))}
-        </ul>
+      <div>
+        {
+          launchList.map(launch => (
+            <Card 
+              imgUrl={launch?.links?.mission_patch_small || 'https://via.placeholder.com/150x150?text=No%20Image%20Available'}
+              title={`${launch.mission_name} #${launch.flight_number}`}
+              missionIdList={launch.mission_id}
+              launchYear={launch.launch_year}
+              launchSucccess={launch.launch_success ? "true" : "false"}
+              landSuccess={launch?.rocket?.first_stage?.cores[0]?.land_success ? "true" : "false"}
+            />
+          ))
+        }
+      </div>
     </Layout>
   )
 }
