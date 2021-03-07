@@ -38,9 +38,10 @@ export default function Home() {
     
   }
 
-  useEffect(() => {
-    dispatch(getLaunchesAsync({params}))
-  }, [params])
+  const filteredList = launchList
+  .filter(launch => !params.launch_year ? ( launch.launch_year !== '') : (launch.launch_year == params.launch_year))
+  .filter(launch => (params.launch_success === undefined ||  params.launch_success === '') ? ( launch.launch_success !== '') : (launch.launch_success?.toString() === params.launch_success))
+  .filter(launch => (params.land_success === undefined || params.land_success === '')  ? ( launch?.rocket?.first_stage?.cores[0]?.land_success !== '') : (launch?.rocket?.first_stage?.cores[0]?.land_success?.toString() === params.land_success));
 
   return (
     <Layout title="SpaceX Launch Programs" >
@@ -53,7 +54,7 @@ export default function Home() {
       </div>
       <div>
         {
-          launchList.map(launch => (
+          filteredList.map(launch => (
             <Card 
               key={`${launch.mission_name}${launch.flight_number}`}
               imgUrl={launch?.links?.mission_patch_small || 'https://via.placeholder.com/150x150?text=No%20Image%20Available'}
@@ -61,7 +62,7 @@ export default function Home() {
               missionIdList={launch.mission_id}
               launchYear={launch.launch_year}
               launchSucccess={launch.launch_success ? "true" : "false"}
-              landSuccess={launch?.rocket?.first_stage?.cores[0]?.land_success ? "true" : "false"}
+              landSuccess={launch?.rocket?.first_stage?.cores[0]?.land_success !== null ? launch?.rocket?.first_stage?.cores[0]?.land_success.toString() : "Not Available"}
             />
           ))
         }
