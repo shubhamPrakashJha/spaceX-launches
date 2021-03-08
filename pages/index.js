@@ -21,9 +21,11 @@ export default function Home({data}) {
     launch_success: '',
     land_success: '',
   });
+  const [paginatedIndex, setPaginatedIndex] = useState(1);
 
   /* Handle Toggle on Filter click */
   const handleFilterClick = (key, value) => {
+    setPaginatedIndex(10)
     // console.log(key, value);
     if(params[key] === value){
       setParams(params => ({
@@ -59,10 +61,20 @@ export default function Home({data}) {
           setRenderCount(1);
         }
     }
-}, [data, params, router])
+  }, [data, params, router])
 
+   useEffect(() => {
+   const onScroll = function () {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        console.log("you're at the bottom of the page")
+        setPaginatedIndex(index => index<10? index+1 : index )
+      }
+   }
+   window.addEventListener('scroll', onScroll)
+   return () => window.removeEventListener('scroll', onScroll)
+}, [])
 
-  const filteredList = data
+  const filteredList = data.slice(0,paginatedIndex*12)
   .filter(launch => !params.launch_year ? ( launch.launch_year !== '') : (launch.launch_year == params.launch_year))
   .filter(launch => (params.launch_success === undefined ||  params.launch_success === '') ? ( launch.launch_success !== '') : (launch.launch_success?.toString() === params.launch_success))
   .filter(launch => (params.land_success === undefined || params.land_success === '')  ? ( launch?.rocket?.first_stage?.cores[0]?.land_success !== '') : (launch?.rocket?.first_stage?.cores[0]?.land_success?.toString() === params.land_success));
