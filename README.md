@@ -1,5 +1,7 @@
 # Next JS React App with Server Side Rendering
 
+![](./public/performance-metric.png)
+
 ## Libraries Used:
 1. Next Js - for  server side rendering
 2. CSS Module - for CSS preprocessing
