@@ -14,7 +14,7 @@ export const getLaunchesAsync = (payload) => {
   return async (dispatch, getState) => {
     try {
       let launcData = await API.getLaunchList(payload);
-      console.log(launcData)
+      // console.log(launcData)
       dispatch(getLaunches(launcData.data))
     } catch (error) {
       console.log(error)

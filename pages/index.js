@@ -1,9 +1,10 @@
 
 import {useEffect,useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import baseUrl from '../api/url';
 
 import Layout from '../components/templates/Layout';
-import {getLaunchesAsync} from '../state/reducer/launches/launches.action';
+import {getLaunches} from '../state/reducer/launches/launches.action';
 import {Card} from '../components/atom'
 import { SiteSidebar } from '../components/organisms';
 import styles from '../styles/Home.module.css';
@@ -12,7 +13,7 @@ import { Filter } from '../components';
 
 import { useRouter } from 'next/router'
 
-export default function Home() {
+export default function Home({data}) {
   const firstRun = useRef(true)
   const [renderCount, setRenderCount] = useState(0)
   const router = useRouter()
@@ -32,13 +33,12 @@ export default function Home() {
 
   /* Load Launch list on first Render */
   useEffect(() => {
-    setIsLoading(true);
-    dispatch(getLaunchesAsync({params})).then(success => setIsLoading(false))
-  }, [])
+    dispatch(getLaunches(data))
+  }, [data])
 
   /* Handle Toggle on Filter click */
   const handleFilterClick = (key, value) => {
-    console.log(key, value);
+    // console.log(key, value);
     if(params[key] === value){
       setParams(params => ({
         ...params,
@@ -68,7 +68,7 @@ export default function Home() {
   useEffect(() => {
     if(Object.keys(router.query).length > 0){
         if (renderCount === 0) {
-          console.log(router.query);
+          // console.log(router.query);
           setParams({ ...router.query });
           setRenderCount(1);
         }
@@ -108,4 +108,14 @@ export default function Home() {
       </div> : <h4>Loading...</h4>}
     </Layout>
   );
+}
+
+// This gets called on every request
+export async function getServerSideProps() {
+  // Fetch data from external API
+  const res = await fetch(baseUrl.getLaunchList)
+  const data = await res.json()
+
+  // Pass data to the page via props
+  return { props: { data } }
 }
