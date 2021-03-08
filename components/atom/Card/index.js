@@ -6,7 +6,7 @@ function Card({imgUrl="", title, missionIdList = [], launchYear="", launchSuccce
   return (
     <div className={styles.card}>
       <div className={styles.card_image}>
-        <img src={imgUrl} alt="mission patch"/>
+        <img src={imgUrl} alt="mission patch" width={226} height={226}/>
       </div> 
       <div className={styles.card_body}>
         <h4 className={styles.card_title}>{title}</h4>
