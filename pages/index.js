@@ -1,10 +1,8 @@
 
 import {useEffect,useRef, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
 import baseUrl from '../api/url';
 
 import Layout from '../components/templates/Layout';
-import {getLaunches} from '../state/reducer/launches/launches.action';
 import {Card} from '../components/atom'
 import { SiteSidebar } from '../components/organisms';
 import styles from '../styles/Home.module.css';
@@ -17,24 +15,12 @@ export default function Home({data}) {
   const firstRun = useRef(true)
   const [renderCount, setRenderCount] = useState(0)
   const router = useRouter()
-  const dispatch = useDispatch();
   const [params, setParams] = useState({
     limit: 100,
     launch_year: '',
     launch_success: '',
     land_success: '',
   });
-  const [isLoading, setIsLoading] = useState(false);
-
-
-  const {
-    launchList
-  } = useSelector(state => state.launchState) 
-
-  /* Load Launch list on first Render */
-  useEffect(() => {
-    dispatch(getLaunches(data))
-  }, [data])
 
   /* Handle Toggle on Filter click */
   const handleFilterClick = (key, value) => {
@@ -73,16 +59,16 @@ export default function Home({data}) {
           setRenderCount(1);
         }
     }
-}, [launchList, params, router])
+}, [data, params, router])
 
 
-  const filteredList = launchList
+  const filteredList = data
   .filter(launch => !params.launch_year ? ( launch.launch_year !== '') : (launch.launch_year == params.launch_year))
   .filter(launch => (params.launch_success === undefined ||  params.launch_success === '') ? ( launch.launch_success !== '') : (launch.launch_success?.toString() === params.launch_success))
   .filter(launch => (params.land_success === undefined || params.land_success === '')  ? ( launch?.rocket?.first_stage?.cores[0]?.land_success !== '') : (launch?.rocket?.first_stage?.cores[0]?.land_success?.toString() === params.land_success));
 
   return (
-<Layout title="SpaceX Launch Programs" >
+    <Layout title="SpaceX Launch Programs" >
       <div>
         <SiteSidebar>
           <h3 className={styles.sidebarTitle}>Filters</h3>
@@ -91,7 +77,7 @@ export default function Home({data}) {
           }
         </SiteSidebar>
       </div>
-      {!isLoading ? <div className={styles.cardContainer}>
+      <div className={styles.cardContainer}>
         {
           filteredList.length > 0 ? filteredList.map(launch => (
             <Card 
@@ -103,9 +89,9 @@ export default function Home({data}) {
               launchSucccess={launch.launch_success ? "true" : "false"}
               landSuccess={launch?.rocket?.first_stage?.cores[0]?.land_success !== null ? launch?.rocket?.first_stage?.cores[0]?.land_success.toString() : "Not Available"}
             />
-          )) : <h4>No Records Found...</h4>
+          )) : <h4>{renderCount === 0 ? "Loading..." : "No Records Found..."}</h4>
         }
-      </div> : <h4>Loading...</h4>}
+      </div>
     </Layout>
   );
 }
